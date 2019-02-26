@@ -1,0 +1,39 @@
+
+.FerryTable {
+    padding: 0px 10px;
+}
+table {
+    width:100%;
+    box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
+  }
+  th{
+    height: 60px;
+  }
+  table, th, td {
+    border: 1px solid #1a237e;
+    border-collapse: collapse;
+  }
+  th, td {
+    padding: 5px;
+    text-align: left;
+  }
+  table#t01 tr:nth-child(even) {
+    background-color: #eee;
+    transition: all 0.8s ease-out;
+  }
+  table#t01 tr:nth-child(odd) {
+   background-color: #fff;
+   transition: all 0.8s ease-out;
+  }
+
+  table#t01 tr:hover  {
+    background-color: #cdcdcd;
+  }
+  /* table#t01 tr:nth-child(odd):hover {
+   background-color: #f1f0f0;
+  } */
+
+  table#t01 th {
+    background-color: #1a237e;
+    color: white;
+  }
