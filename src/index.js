@@ -6,8 +6,11 @@ import { MuiThemeProvider, createMuiTheme } from '@material-ui/core'
 import * as serviceWorker from './serviceWorker';
 import { indigo, amber } from '@material-ui/core/colors'
 
-console.log(indigo)
+
 const theme = createMuiTheme({
+    typography: {
+        useNextVariants: true,
+    },
     palette: {
         primary: {
             main: indigo[800],

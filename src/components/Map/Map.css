@@ -11,15 +11,14 @@ div#mapTable {
   margin-top: 20px;
   
 }
-.viewDrawer{
+/* .viewDrawer{
     display: flex;
     flex-direction: column; 
-    padding: 0px 10px;
-}
+} */
 
 
 div#views {
-    max-width: 300px;
+    /* max-width: 300px; */
     /* padding-right: 20px; */
     margin: 10px;
     box-shadow: 1px 1px 2px 1px rgba(0, 0, 0, 0.5);
@@ -55,7 +54,7 @@ div#search-area {
    
   }
   #mapHolder{
-      height: 600px
+      height: calc(100vh - 150px);
   }
   .MicrosoftMap .Infobox{
     width:200px;

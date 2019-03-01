@@ -2,16 +2,9 @@ import React from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
-import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
-import InputBase from "@material-ui/core/InputBase";
-import Badge from "@material-ui/core/Badge";
-import MenuItem from "@material-ui/core/MenuItem";
-import Menu from "@material-ui/core/Menu";
 import { fade } from "@material-ui/core/styles/colorManipulator";
 import { withStyles } from "@material-ui/core/styles";
-import MenuIcon from "@material-ui/icons/Menu";
-import SearchIcon from "@material-ui/icons/Search";
 
 const styles = theme => ({
     root: {
@@ -20,15 +13,19 @@ const styles = theme => ({
     grow: {
         flexGrow: 1
     },
+    toolbar: {
+        display: "flex",
+        justifyContent: "center"
+    },
     menuButton: {
         marginLeft: -12,
         marginRight: 20
     },
     title: {
-        display: "none",
-        [theme.breakpoints.up("sm")]: {
-            display: "block"
-        }
+        // display: "none",
+        // [theme.breakpoints.up("sm")]: {
+        //   display: "block"
+        // }
     },
     search: {
         position: "relative",
@@ -99,21 +96,13 @@ class Header extends React.Component {
     };
 
     render() {
-        const { anchorEl } = this.state;
         const { classes } = this.props;
-        const isMenuOpen = Boolean(anchorEl);
+        // const isMenuOpen = Boolean(anchorEl);
 
         return (
             <div className={classes.root}>
-                <AppBar >
-                    <Toolbar>
-                        <IconButton
-                            className={classes.menuButton}
-                            color="inherit"
-                            aria-label="Open drawer"
-                        >
-                            <MenuIcon />
-                        </IconButton>
+                <AppBar>
+                    <Toolbar className={classes.toolbar}>
                         <Typography
                             className={classes.title}
                             variant="h6"
@@ -121,7 +110,7 @@ class Header extends React.Component {
                             noWrap
                         >
                             Ferry Tracker
-              </Typography>
+            </Typography>
                     </Toolbar>
                 </AppBar>
             </div>

@@ -8,7 +8,7 @@ const views = [
         "properties": {
             "id": 1,
             "title": "All",
-            "zoom": 7,
+            "zoom": 8,
         }
     },
     {
