@@ -2,6 +2,7 @@
 
 .App {
   text-align: center;
+  
 }
 
 
@@ -13,5 +14,32 @@ div#content-wrapper {
   max-width: 1100px;
   margin: 0 auto;
   padding-top: 70px;
+  position: relative;
+}
+#legend{
+  position: absolute;
+  bottom: 125px;
+  right: 10px;
+  background-color: rgba(255,255,255,0.8);
+  max-width: 260px;
+  max-height: 125px
+}
+#legend>h4 {
+  font-size: 1em;
+  margin:5px
+}
+  div#legend-body {
+    display: flex;
+    align-content: space-between;
+    align-items: center;
+    justify-content: center;
+}
+div#legend-body>p{
+  font-size: 12px;
 }
 
+#legend-body>img {
+    width: 24px;
+    height: auto;
+    margin: 0px 10px;
+}

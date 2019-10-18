@@ -32,9 +32,11 @@ class App extends Component {
   };
   getNCFerries = async () => {
     axios
-      .get("https://gisd14.dot.nc.net/GeoRss/FerryGeoJson.ashx")
+      .get("https://gisd14.dot.nc.net/FerryFeed/FerryGeoJson.ashx")
+      // .get("https://gisd14.dot.nc.net/GeoRss/FerryGeoJson.ashx")
       .then(response => {
         let timeStamp = Date.now();
+        //console.log(response.data.features);
         this.setState(() => ({
           ncferries: response.data.features,
           ncPinData: [],
@@ -42,10 +44,10 @@ class App extends Component {
           terminalPins: ports,
           timeStamp,
           filteredFerries: response.data.features,
-          code: response.data.crs.properties.code
+          //code: response.data.crs.properties.code
         }));
 
-        // console.log(response.data)
+        console.log(response.data)
       })
       .then(resonse => {
         this.setState(() => ({ isLoading: false }));
@@ -67,6 +69,7 @@ class App extends Component {
         let cityThree = response.data.properties.periods[0];
         Object.assign(cityThree, { "cityName": "Wilmington" })
         this.setState({ cityWeather: [...this.state.cityWeather, cityThree] })
+        console.log(response)
       })
 
       .catch(error => {
@@ -122,7 +125,7 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
-    this.startCount();
+    //this.startCount();
     this.getNCFerries();
     this.getCityOne();
     this.getCityTwo();
@@ -140,7 +143,7 @@ class App extends Component {
       <div className="App">
         {/* <Header /> */}
         <div id="content-wrapper">
-          {this.state.isLoading === true ||
+          {/* {this.state.isLoading === true ||
             this.state.ncferries.length === 0 ? (
               <Loader
                 isLoading={this.state.isLoading}
@@ -153,9 +156,23 @@ class App extends Component {
                 //ncferries={filteredFerries}
                 data={this.state}
               />
-            )}
+            )} */}
+          <Map
+            //ncferries={filteredFerries}
+            data={this.state}
+          />
 
-          {/* <FerryTable ncferries={this.state.ncferries} /> */}
+          <div id="legend">
+            <h4>Legend</h4>
+            <div id="legend-body">
+              <p>Terminal / Dock</p>
+              <img src={require('./components/images/terminal.png')} alt="terminal icon" />
+              <p>Ferry Underway</p>
+              <img src={require('./components/images/ferry-icon.png')} alt="ferry icon" />
+              <p>Ferry Docked</p>
+              <img src={require('./components/images/docked.png')} alt="dock icon" />
+            </div>
+          </div>
         </div>
         {/* <Tabs /> */}
       </div>

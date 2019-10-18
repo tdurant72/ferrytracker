@@ -1,6 +1,6 @@
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from "classnames";
+import PropTypes from "prop-types";
 import {
     Drawer,
     Paper,
@@ -16,6 +16,7 @@ import {
     CssBaseline
 } from "@material-ui/core";
 import Moment from 'react-moment'
+import classNames from "classnames";
 const styles = theme => ({
     root: {
 
@@ -55,8 +56,7 @@ const styles = theme => ({
     }
 });
 
-
-class FerryTable extends Component {
+class Tbl extends Component {
 
     onHandleTableView = (latitude, longitude, event, index) => {
         event.preventDefault();
@@ -116,9 +116,9 @@ class FerryTable extends Component {
         </div>
     }
 }
-
-FerryTable.propTypes = {
+Tbl.propTypes = {
     classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(FerryTable);
+export default withStyles(styles, { withTheme: true })(Tbl);

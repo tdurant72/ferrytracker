@@ -63,7 +63,7 @@ const views = [
         "type": "Feature",
         "geometry": {
             "type": "Point",
-            "coordinates": [34.979897, -76.595824]
+            "coordinates": [34.951021, -76.808606]
         },
         "properties": {
             "id": 6,

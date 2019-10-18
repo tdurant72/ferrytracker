@@ -38,6 +38,7 @@ import Boat from "../Boat/Boat";
 import CityWeather from '../CityWeather/CityWeather'
 import TerminalTable from '../TerminalTable/TerminalTable'
 import FerryTable from '../FerryTable/FerryTable'
+import Tbl from '../Tbl/Tbl'
 
 const drawerWidth = "auto";
 const styles = theme => ({
@@ -183,17 +184,24 @@ class Map extends Component {
     };
     componentDidUpdate(prevProps, prevState) {
         if (this.props.data.ncferries !== this.state.ferries) {
-            this.state.map.entities.clear();
-            this.state.map.layers.clear();
+            //this.state.map.entities.clear();
+            //this.state.map.layers.clear();
             this.setState(() => ({
                 ferries: this.props.data.ncferries,
                 timeStamp: this.props.data.timeStamp
             }));
-            this.state.map.layers.insert(this.state.terminalLayer);
+            //this.state.map.layers.insert(this.state.terminalLayer);
         }
         if (this.props.data.cityWeather !== this.state.cities) {
             this.setState(() => ({ cities: this.props.data.cityWeather }))
         }
+
+        if (this.props.data.timeStamp !== this.state.timeStamp && this.state.timeStamp !== null) {
+            this.state.map.entities.clear();
+            this.state.map.layers.clear();
+            //console.log(this.state.timeStamp);
+        }
+
     }
 
     /* render data */
@@ -210,7 +218,22 @@ class Map extends Component {
         const map = new window.Microsoft.Maps.Map(document.getElementById("map"), {
             center: new window.Microsoft.Maps.Location(lat, lng),
             mapTypeId: window.Microsoft.Maps.MapTypeId.road,
-            zoom: this.state.views[0].properties.zoom
+            zoom: this.state.views[0].properties.zoom,
+            mapTypeId: window.Microsoft.Maps.MapTypeId.canvasLight,
+            customMapStyle: {
+                elements: {
+                    "mapElement": { labelColor: '#4b5963' },
+                    // water: { fillColor: '#C0E4FF' },
+                    // tollRoad: { fillColor: '#a964f4', strokeColor: '#a964f4' },
+                    // arterialRoad: { fillColor: '#ffffff', strokeColor: '#d7dae7' },
+                    // road: { fillColor: '#687d8c', strokeColor: '#687d8c' },
+                    // street: { fillColor: '#ffffff', strokeColor: '#ffffff' },
+                    // transit: { fillColor: '#000000' }
+                },
+                // settings: {
+                //     landColor: '#f9f8e8'
+                // }
+            }
         });
 
         let terminalPushpin = new window.Microsoft.Maps.Pushpin(lat, lng);
@@ -233,24 +256,24 @@ class Map extends Component {
     //Change map view
     onClickView = props => {
         let updatedView = props;
-        //console.log(center)
+        //console.log(updatedView)
         this.state.map.setView({
             center: new window.Microsoft.Maps.Location(
-                updatedView.geometry.coordinates[0],
-                updatedView.geometry.coordinates[1]
+                updatedView[1],
+                updatedView[0]
             ),
-            zoom: updatedView.properties.zoom
+            zoom: updatedView[2]
         });
     };
 
-    //Change map view based on table link
-    onClickTableView = props => {
+    //change ferry view
+    onClickFerryView = props => {
         let updatedView = props;
-
+        console.log(props);
         this.state.map.setView({
             center: new window.Microsoft.Maps.Location(
-                updatedView.Latitude,
-                updatedView.Longitude
+                updatedView[0],
+                updatedView[1]
             ),
             zoom: updatedView.speed === "0 knots" ? 16 : 12
         });
@@ -312,7 +335,7 @@ class Map extends Component {
         this.setState({ boatPins: [...this.state.boatPins, boatPin] });
         this.state.ferryLayer.add(boatPin);
         this.state.map.entities.push(boatPin);
-        //console.log("renderBoatPin called")
+
         let boatInfobox = new window.Microsoft.Maps.Infobox(boatLocation, {
             visible: false
         });
@@ -322,7 +345,9 @@ class Map extends Component {
             boatInfobox.setOptions({
                 visible: true,
                 title: VesselName,
-                description: summary
+                description: summary,
+                maxHeight: 250,
+                maxWidth: 250
             });
         });
     };
@@ -408,26 +433,10 @@ class Map extends Component {
                                     onKeyDown={this.toggleDrawer("terminalDrawer", false)}
                                 />
                                 <div className="viewDrawer">
-                                    <Paper className={classes.root}>
-                                        <Table className={classes.table}>
-                                            <TableHead>
-                                                <TableRow className={classes.tableHeader} >
-                                                    <TableCell className={classes.tableHeaderFont}>Terminals</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {this.state.views.map(view => (
-                                                    <TerminalTable
-                                                        key={view.properties.id}
-                                                        index={view.properties.id}
-                                                        title={view.properties.title}
-                                                        {...view}
-                                                        onClickView={this.onClickView.bind(this, view)}
-                                                    />
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </Paper>
+                                    <TerminalTable
+                                        views={this.state.views}
+                                        onClickView={this.onClickView}
+                                    />
                                 </div>
                             </Drawer>
                             <Drawer
@@ -448,31 +457,7 @@ class Map extends Component {
                                     onKeyDown={this.toggleDrawer("ferryDrawer", false)}
                                 />
                                 <div className="FerryTable">
-                                    <Paper style={styles.root}>
-                                        <Table style={styles.table}>
-                                            <TableHead>
-                                                <TableRow className={classes.tableHeader}>
-                                                    <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Ferry name</TableCell>
-                                                    <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Speed</TableCell>
-                                                    <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Status</TableCell>
-                                                    <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>As of</TableCell>
-                                                </TableRow>
-                                            </TableHead>
-                                            <TableBody>
-                                                {this.state.ferries.map(boat => (
-                                                    <FerryTable
-                                                        key={boat.id}
-                                                        title={boat.properties["Vessel Name"]}
-                                                        Latitude={`${boat.properties.Latitude}`}
-                                                        Longitude={`${boat.properties.Longitude}`}
-                                                        speed={boat.properties.SOG}
-                                                        time={boat.properties.Time}
-                                                        onClickTableView={this.onClickTableView}
-                                                    />
-                                                ))}
-                                            </TableBody>
-                                        </Table>
-                                    </Paper>
+                                    <FerryTable ferries={this.state.ferries} onClickFerryView={this.onClickFerryView} />
                                 </div>
                             </Drawer>
 
