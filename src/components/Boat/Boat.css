@@ -17,3 +17,7 @@
   margin-right: 5px;
   margin-top: -2px;
 }
+
+#Layer_1{
+  transform-origin: 50% 50%;
+}

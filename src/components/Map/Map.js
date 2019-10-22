@@ -30,6 +30,7 @@ import LinksIcon from "../images/LinksIcon";
 
 import "./Map.css";
 import views from "../../data/views";
+import ports from '../../data/ports'
 
 import Header from "../Header/Header";
 import Contact from "../Contact/Contact";
@@ -172,7 +173,8 @@ class Map extends Component {
         this.setState(() => ({
             views: views,
             ferries: this.props.data.ncferries,
-            terminals: this.props.data.terminals,
+            // terminals: this.props.data.terminals,
+            terminals: ports,
             filteredTerminals: this.props.data.terminals,
             timeStamp: this.props.data.timeStamp,
             filteredFerries: this.props.data.ncferries,
@@ -181,11 +183,13 @@ class Map extends Component {
         }));
 
         this.renderMap();
+
     };
     componentDidUpdate(prevProps, prevState) {
         if (this.props.data.ncferries !== this.state.ferries) {
             //this.state.map.entities.clear();
             //this.state.map.layers.clear();
+            console.log(this.state);
             this.setState(() => ({
                 ferries: this.props.data.ncferries,
                 timeStamp: this.props.data.timeStamp
@@ -199,6 +203,7 @@ class Map extends Component {
         if (this.props.data.timeStamp !== this.state.timeStamp && this.state.timeStamp !== null) {
             this.state.map.entities.clear();
             this.state.map.layers.clear();
+            //this.state.map.layers.insert(this.state.terminalLayer);
             //console.log(this.state.timeStamp);
         }
 
@@ -265,11 +270,23 @@ class Map extends Component {
             zoom: updatedView[2]
         });
     };
+    //Change terminal view
+    onClickTeminalView = props => {
+        let updatedView = props;
+        //console.log(updatedView)
+        this.state.map.setView({
+            center: new window.Microsoft.Maps.Location(
+                updatedView[0],
+                updatedView[1]
+            ),
+            zoom: updatedView[2]
+        });
+    };
 
     //change ferry view
     onClickFerryView = props => {
         let updatedView = props;
-        console.log(props);
+        //console.log(props);
         this.state.map.setView({
             center: new window.Microsoft.Maps.Location(
                 updatedView[0],
@@ -457,7 +474,7 @@ class Map extends Component {
                                     onKeyDown={this.toggleDrawer("ferryDrawer", false)}
                                 />
                                 <div className="FerryTable">
-                                    <FerryTable ferries={this.state.ferries} onClickFerryView={this.onClickFerryView} />
+                                    <FerryTable terminals={this.state.terminals} ferries={this.state.ferries} onClickFerryView={this.onClickFerryView} onClickTeminalView={this.onClickTeminalView} />
                                 </div>
                             </Drawer>
 

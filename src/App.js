@@ -47,7 +47,7 @@ class App extends Component {
           //code: response.data.crs.properties.code
         }));
 
-        console.log(response.data)
+        console.log(this.state)
       })
       .then(resonse => {
         this.setState(() => ({ isLoading: false }));
