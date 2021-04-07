@@ -35,6 +35,7 @@ class App extends Component {
       .get("https://gisd14.dot.nc.net/Ncdotferryfeed/ferrygeojson.ashx")
       .then((response) => {
         let timeStamp = Date.now();
+        //console.log(response.data.features);
         this.setState(() => ({
           ncferries: response.data.features,
           ncPinData: [],
@@ -45,7 +46,7 @@ class App extends Component {
           code: response.data.crs.properties.code,
         }));
 
-        // console.log(response.data)
+        console.log(this.state);
       })
       .then((resonse) => {
         this.setState(() => ({ isLoading: false }));
@@ -122,7 +123,7 @@ class App extends Component {
   }
 
   componentDidMount = async () => {
-    this.startCount();
+    //this.startCount();
     this.getNCFerries();
     this.getCityOne();
     this.getCityTwo();
@@ -155,7 +156,26 @@ class App extends Component {
             />
           )}
 
-          {/* <FerryTable ncferries={this.state.ncferries} /> */}
+          <div id="legend">
+            <h4>Legend</h4>
+            <div id="legend-body">
+              <p>Terminal / Dock</p>
+              <img
+                src={require("./components/images/terminal.png")}
+                alt="terminal icon"
+              />
+              <p>Ferry Underway</p>
+              <img
+                src={require("./components/images/ferry-icon.png")}
+                alt="ferry icon"
+              />
+              <p>Ferry Docked</p>
+              <img
+                src={require("./components/images/docked.png")}
+                alt="dock icon"
+              />
+            </div>
+          </div>
         </div>
         {/* <Tabs /> */}
       </div>

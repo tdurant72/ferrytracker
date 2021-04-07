@@ -1,6 +1,6 @@
+
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classNames from "classnames";
+import PropTypes from "prop-types";
 import {
     Drawer,
     Paper,
@@ -16,6 +16,7 @@ import {
     CssBaseline
 } from "@material-ui/core";
 import Moment from 'react-moment'
+import classNames from "classnames";
 const styles = theme => ({
     root: {
 
@@ -55,21 +56,13 @@ const styles = theme => ({
     }
 });
 
-
-class FerryTable extends Component {
+class Tbl extends Component {
 
     onHandleTableView = (latitude, longitude, event, index) => {
         event.preventDefault();
         // console.log(latitude, longitude)
         let updatedView = [latitude, longitude]
         this.props.onClickFerryView(updatedView)
-
-    }
-    onHandleTerminalTableView = (latitude, longitude, event, index) => {
-        event.preventDefault();
-        // console.log(latitude, longitude)
-        let updatedView = [latitude, longitude]
-        this.props.onClickTeminalView(updatedView)
 
     }
     componentDidMount() {
@@ -79,17 +72,13 @@ class FerryTable extends Component {
 
     render() {
         const { classes } = this.props;
-        let { latitude, longitude } = this.props.ferries;
-        let { tlatitude, tlongitude } = this.props.terminals;
+        let { latitude, longitude } = this.props.ferries
         return <div>
             <Paper style={styles.root}>
                 <Table style={styles.table}>
                     <TableHead>
                         <TableRow className={classes.tableHeader}>
-                            <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Ferry Terminal</TableCell>
-                            <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Ferry Name</TableCell>
-
-                            <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>ETA</TableCell>
+                            <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Ferry name</TableCell>
                             <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Speed</TableCell>
                             <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>Status</TableCell>
                             <TableCell className={classNames(classes.tableHeaderFont, classes.onSmallTable)}>As of</TableCell>
@@ -102,15 +91,6 @@ class FerryTable extends Component {
                                 boat={boat}
                                 title={boat.properties["Vessel Name"]}
                             >
-                                <TableCell className={classNames(classes.onSmallTable)}>
-                                    <span
-                                        className={classes.links}
-                                        tlatitude={boat.geometry.coordinates[1]}
-                                        tlongitude={boat.geometry.coordinates[0]}
-                                        onClick={this.onHandleTerminalTableView.bind(this, boat.geometry.coordinates[1], boat.geometry.coordinates[0])}
-                                    >{boat.properties.Destination}</span>
-
-                                </TableCell>
                                 <TableCell component="th" scope="row" className={classes.onSmallTable}>
                                     <span
                                         className={classes.links}
@@ -121,8 +101,6 @@ class FerryTable extends Component {
                                     </span>
 
                                 </TableCell>
-
-                                <TableCell className={classNames(classes.onSmallTable)}>{boat.properties.ETA}</TableCell>
                                 <TableCell className={classNames(classes.onSmallTable)}>{boat.properties.SOG}</TableCell>
                                 <TableCell className={classes.onSmallTable}>{boat.properties.SOG === "0 knots" ? "docked" : " underway"}</TableCell>
                                 <TableCell className={classes.onSmallTable}>
@@ -138,9 +116,9 @@ class FerryTable extends Component {
         </div>
     }
 }
-
-FerryTable.propTypes = {
+Tbl.propTypes = {
     classes: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(FerryTable);
+export default withStyles(styles, { withTheme: true })(Tbl);

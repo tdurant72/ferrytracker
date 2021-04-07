@@ -15,7 +15,9 @@ div#mapTable {
     display: flex;
     flex-direction: column; 
 } */
-
+.ncferry div{
+  color:#002445 !important;
+}
 
 div#views {
     /* max-width: 300px; */
