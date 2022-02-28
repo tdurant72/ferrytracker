@@ -1,13 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500');
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500");
 
 .App {
   text-align: center;
-  
+}
+.loading {
+  text-align: center;
+  margin-top: 5rem;
 }
 
-
-body{
-  font-family: 'Roboto', Arial, Helvetica, sans-serif;
+body {
+  font-family: "Roboto", Arial, Helvetica, sans-serif;
 }
 
 div#content-wrapper {
@@ -16,30 +18,30 @@ div#content-wrapper {
   padding-top: 70px;
   position: relative;
 }
-#legend{
+#legend {
   position: absolute;
   bottom: 125px;
   right: 10px;
-  background-color: rgba(255,255,255,0.8);
+  background-color: rgba(255, 255, 255, 0.8);
   max-width: 260px;
-  max-height: 125px
+  max-height: 125px;
 }
-#legend>h4 {
+#legend > h4 {
   font-size: 1em;
-  margin:5px
+  margin: 5px;
 }
-  div#legend-body {
-    display: flex;
-    align-content: space-between;
-    align-items: center;
-    justify-content: center;
+div#legend-body {
+  display: flex;
+  align-content: space-between;
+  align-items: center;
+  justify-content: center;
 }
-div#legend-body>p{
+div#legend-body > p {
   font-size: 12px;
 }
 
-#legend-body>img {
-    width: 24px;
-    height: auto;
-    margin: 0px 10px;
+#legend-body > img {
+  width: 24px;
+  height: auto;
+  margin: 0px 10px;
 }
